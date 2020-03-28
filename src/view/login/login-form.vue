@@ -32,9 +32,8 @@ export default {
         userName: this.loginForm.userName,
         password: this.loginForm.password
       }
-      console.log(this.$axios)
-      this.$axios.post('/login', param).then(res => {
-        console.log(res)
+      this.$axios.post('/exam/oauth/login', param).then(res => {
+        this.$router.push({name: 'home'})
       })
     }
   }
@@ -43,7 +42,7 @@ export default {
 
 <style scoped lang="scss">
   .login-form {
-    width: 300px;
+    width: 400px;
     padding: 0 40px;
     margin: 0 auto;
     margin-bottom: 20px;
