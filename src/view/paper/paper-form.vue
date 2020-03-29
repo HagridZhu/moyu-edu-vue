@@ -6,7 +6,7 @@
     :before-close="handleClose">
     <el-form ref="paper" :model="paper" label-width="80px">
       <el-form-item label="试卷名称">
-        <el-input v-model="paper.paperName"></el-input>
+        <el-input v-model="paper.paperName" clearable></el-input>
       </el-form-item>
       <el-form-item label="考试时长">
         <el-input v-model="paper.duration" oninput = "value=value.replace(/[^\d]/g,'')"></el-input>

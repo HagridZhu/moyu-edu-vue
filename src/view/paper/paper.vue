@@ -6,7 +6,8 @@
         <el-input
         placeholder="请输入试卷名称"
         prefix-icon="el-icon-search"
-        v-model="paperName">
+        v-model="paperName"
+        clearable>
       </el-input>
       </span>
       <el-button class="left" type="primary" icon="el-icon-search" @click="search" >搜索</el-button>
@@ -24,7 +25,14 @@
         <el-table-column prop="paperScore"  label="总分"></el-table-column>
         <el-table-column prop="createBy"  label="创建人" width="80px" ></el-table-column>
         <el-table-column prop="createDate"  label="创建时间" width="151px" :formatter="formatDate"></el-table-column>
+        <el-table-column fixed="right" label="操作" width="150">
+          <template slot-scope="scope">
+            <el-button @click="addPaperQuestion(scope.row)" type="text" size="small">添加试题</el-button>
+            <el-button @click="todo(scope.row)" type="text" size="small">编辑</el-button>
+          </template>
+        </el-table-column>
       </el-table>
+      <!-- 分页 -->
       <el-pagination class="paper-table right"
         background
         @size-change="sizeChange"
@@ -35,6 +43,7 @@
         :total="total">
       </el-pagination>
     </div>
+    <!-- 新增试卷 -->
     <my-paper-form  ref="myPaperForm"></my-paper-form>
   </div>
 </template>
@@ -81,6 +90,16 @@ export default {
     },
     addPaper () {
       this.$refs.myPaperForm.show()
+    },
+    addPaperQuestion (row) {
+      this.todo(row)
+    },
+    todo (row) {
+      this.$message({
+        message: '还在开发中，敬请期待',
+        type: 'warning',
+        duration: 1.5 * 1000
+      })
     }
   },
   created () {
@@ -96,13 +115,13 @@ export default {
     font-weight: 500;
     font-size: 22px;
   }
-  .input-serach {
-    float: left;
-    margin-right: 10px;
-  }
   .title-div {
     display: block;
     height: 50px;
+  }
+  .input-serach {
+    float: left;
+    margin-right: 10px;
   }
   .paper-table {
     margin-top: 20px;

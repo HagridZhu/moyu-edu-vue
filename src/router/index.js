@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import login from '@/view/login/login'
 import home from '@/view/home/home'
 import paper from '@/view/paper/paper'
+import paperDetail from '@/view/paper/paper-detail'
 
 Vue.use(Router)
 
@@ -33,6 +34,10 @@ export default new Router({
         {
           path: 'paper',
           component: paper
+        },
+        {
+          path: 'paperDetail',
+          component: paperDetail
         }
       ]
     }
