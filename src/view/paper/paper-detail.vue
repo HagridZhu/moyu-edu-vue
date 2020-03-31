@@ -9,24 +9,13 @@
           <el-form-item class="overview" label="考试时长:" prop="duration">{{duration}}分钟</el-form-item>
           <el-form-item class="overview" label="总分:" prop="paperScore">{{paperScore}}分</el-form-item>
           <div class="q-type"><b>单选题</b></div>
-          <div class="question"
-            v-for="(e) in singleSelectList"
-            :key="e.paperQuestionId">
-            <div>{{e.questionNum}}.({{e.questionScore}}分){{e.content}}</div>
-            <div v-if="e.pictureUrl">
-              <img :src="e.pictureUrl">
-            </div>
-            <div class="option">A. {{e.optionA}}</div>
-            <div class="option">B. {{e.optionB}}</div>
-            <div class="option">C. {{e.optionC}}</div>
-            <div class="option">D. {{e.optionD}}</div>
-            <div>【答案】{{e.questionAnswer}}</div>
-            <div>【解析】{{e.explanation}}</div>
-            <div>
-              <el-button @click.prevent="addSingleSelect(e)" size="small" type="primary" icon="el-icon-circle-plus-outline" >添加</el-button>
-              <el-button @click.prevent="removeSingleSelect(e.questionNum, e.type)" size="small" type="danger"  icon="el-icon-delete" >删除</el-button>
-            </div>
-          </div>
+          <my-question-view :questionList='singleSelectList' type='0' ></my-question-view>
+          <div class="q-type"><b>多选题</b></div>
+          <my-question-view :questionList='multiSelectList' type='1' ></my-question-view>
+          <div class="q-type"><b>判断题</b></div>
+          <my-question-view :questionList='multiSelectList' type='2' ></my-question-view>
+          <div class="q-type"><b>填空题</b></div>
+          <my-question-view :questionList='multiSelectList' type='3' ></my-question-view>
         </el-form>
       </div>
     </div>
@@ -35,8 +24,9 @@
 </template>
 <script>
 import myQuestionForm from '@/view/question/question-form'
+import myQuestionView from '@/view/question/question-view'
 export default {
-  components: {myQuestionForm},
+  components: {myQuestionForm, myQuestionView},
   data () {
     return {
       paperName: '',
@@ -44,7 +34,9 @@ export default {
       paperCode: '',
       duration: '',
       paperScore: '',
-      singleSelectList: [
+      singleSelectList: [],
+      multiSelectList: [],
+      singleSelectList1: [
         {
           paperId: 1,
           paperQuestionId: 1,
@@ -78,10 +70,11 @@ export default {
   },
   methods: {
     removeSingleSelect (index) {
-      console.log('-------------------------------------removeSingleSelect')
       this.singleSelectList.splice(index, 1)
     },
     addSingleSelect (e) {
+      e.paperId = this.paperId
+      e.num = e.questionNum
       this.$refs.myQuestionForm.show(e)
     },
     search () {
@@ -94,7 +87,9 @@ export default {
         this.paperCode = data.paperCode
         this.duration = data.duration
         this.paperScore = data.paperScore
-        this.singleSelectList = data.questionVoList
+        this.paperId = data.paperId
+        this.singleSelectList = data.questionVoList.filter(e => e.type === 0)
+        this.multiSelectList = data.questionVoList.filter(e => e.type === 1)
       })
     }
   },
@@ -127,10 +122,5 @@ export default {
   margin-top: 15px;
   margin-bottom: 15px;
 }
-.question div {
-  margin-bottom: 10px;
-}
-.option {
-  margin-left: 20px;
-}
+
 </style>

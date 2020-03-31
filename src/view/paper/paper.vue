@@ -92,7 +92,12 @@ export default {
       this.$refs.myPaperForm.show()
     },
     addPaperQuestion (row) {
-      this.todo(row)
+      this.$router.push({
+        path: './paperDetail',
+        query: {
+          paperId: row.paperId
+        }
+      })
     },
     todo (row) {
       this.$message({

@@ -23,11 +23,11 @@
       <el-form-item label="选项D"><el-input v-model="questionForm.optionD" placeholder="请输入选项D"></el-input></el-form-item>
       <el-form-item label="答案"><el-input v-model="questionForm.questionAnswer" placeholder="请输入答案"></el-input></el-form-item>
       <el-form-item label="解析"><el-input v-model="questionForm.explanation" placeholder="请输入解析" type="textarea" autosize ></el-input></el-form-item>
-      <el-form-item label="分值"><el-input v-model="questionForm.questionNum" placeholder="请输入分值" oninput="value=value.replace(/[^\d]/g,'')" ></el-input></el-form-item>
+      <el-form-item label="分值"><el-input v-model="questionForm.defaultScore" placeholder="请输入分值" oninput="value=value.replace(/[^\d]/g,'')" ></el-input></el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
     <el-button type="warning" @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="onSubmit">立即创建</el-button>
+    <el-button type="primary" @click="onSubmit" :loading="createBtnLoading">{{createBtnMsg}}</el-button>
   </span>
   </el-dialog>
 </template>
@@ -43,13 +43,18 @@ export default {
         questionScore: null
       },
       qfDisabled: true,
-      dialogVisible: false
+      dialogVisible: false,
+      createBtnLoading: false,
+      createBtnMsg: '立即创建'
     }
   },
   methods: {
     show (e) {
       this.questionForm.paperId = e.paperId
       this.questionForm.questionNum = e.questionNum + 1
+      if (e.questionNum === 0) {
+        this.questionForm.questionNum = 0
+      }
       this.questionForm.type = e.type
       this.dialogVisible = true
     },
@@ -60,11 +65,16 @@ export default {
         })
         .catch(_ => {})
     },
-    onSubmit () {
-      this.$axios.post('exam/paper/question', this.questionForm).then(res => {
+    async onSubmit () {
+      this.createBtnLoading = true
+      this.createBtnMsg = '创建中'
+      await this.$axios.post('exam/paper/question', this.questionForm).then(res => {
         this.$message.success('添加成功')
       })
+      this.createBtnLoading = false
+      this.createBtnMsg = '立即创建'
       this.dialogVisible = false
+      this.$parent.search()
     }
   }
 }
