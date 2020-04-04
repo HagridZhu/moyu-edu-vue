@@ -4,6 +4,6 @@ const prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  //BASE_API: '"/haige/api/edu"'
-  BASE_API: '"/haige"'
+  BASE_API: '"/haige/api/edu"'
+  //BASE_API: '"/haige"'
 })

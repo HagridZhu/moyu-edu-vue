@@ -15,21 +15,21 @@
         <el-form >
           <template v-if="singleSelectList.length" >
             <div class="q-type"><b>单选题</b></div>
-            <my-question-answering :questionList='questionVoList' type=0 ></my-question-answering>
+            <my-question-answered :questionList='answerVoList' type="0" ></my-question-answered>
           </template>
           <template v-if="multiSelectList.length" >
             <div class="q-type"><b>多选题</b></div>
-            <my-question-answering :questionList='questionVoList' type=1 ></my-question-answering>
+            <my-question-answered :questionList='answerVoList' type="1" ></my-question-answered>
           </template>
           <template v-if="booleanList.length">
             <div class="q-type"><b>判断题</b></div>
-            <my-question-answering :questionList='questionVoList' type=2 ></my-question-answering>
+            <my-question-answered :questionList='answerVoList' type="2" ></my-question-answered>
           </template>
           <template v-if="wirteList.length">
             <div class="q-type"><b>填空题</b></div>
-            <my-question-answering :questionList='questionVoList' type=3 ></my-question-answering>
+            <my-question-answered :questionList='answerVoList' type="3" ></my-question-answered>
           </template>
-          <div clsss="center"><el-button id="submitBtn" @click="answer">提交</el-button></div>
+          <div clsss="center"><div id="submitBtn">你的总分：<span id="userScore">{{userScore}}</span></div></div>
         </el-form>
       </div>
     </div>
@@ -40,20 +40,20 @@
 
 <script>
 import myHeader from '@/view/home/header'
-import myQuestionAnswering from '@/view/question/question-answering'
+import myQuestionAnswered from '@/view/question/question-answered'
 export default {
-  components: {myHeader, myQuestionAnswering},
+  components: {myHeader, myQuestionAnswered},
   data () {
     return {
       msg: '',
+      paperUserId: '',
       paperId: '',
-      paperUserId: null,
       paperName: '',
       paperCode: '',
       duration: '',
       paperScore: '',
+      userScore: '',
       questionVoList: [],
-      examPaperAnswerList: [],
       singleSelectList: [],
       multiSelectList: [],
       booleanList: [],
@@ -63,57 +63,24 @@ export default {
   },
   methods: {
     queryPaper () {
-      this.$axios.get('/exam/paper/detail/' + this.paperId).then(res => {
+      this.$axios.get('/exam/paper/answer/detail', {params: {paperUserId: this.paperUserId}}).then(res => {
         var data = res.data.data
         this.paperId = data.paperId
         this.paperName = data.paperName
         this.duration = data.duration
         this.paperScore = data.paperScore
-        this.examPaperAnswerList = data.questionVoList
-        this.questionVoList = data.questionVoList.map(e => {
-          if (e.type === 1) {
-            this.$set(e, 'answer', [])
-            return e
-          }
-          this.$set(e, 'answer', '')
-          return e
-        })
-        this.singleSelectList = data.questionVoList.filter(e => e.type === 0)
-        this.multiSelectList = data.questionVoList.filter(e => e.type === 1)
-        this.booleanList = data.questionVoList.filter(e => e.type === 2)
-        this.wirteList = data.questionVoList.filter(e => e.type === 3)
-      })
-    },
-    answer () {
-      var param = {
-        paperId: this.paperId,
-        paperUserId: this.paperUserId,
-        examPaperAnswerList: this.questionVoList.map(e => {
-          if (Array.isArray(e.answer)) {
-            e.answer = e.answer.join('')
-          }
-          return e
-        })
-      }
-      this.$axios.post('/exam/paper/answer', param).then(res => {
-        this.$message.success('提交成功')
-        var data = res.data.data
-        this.paperUserId = data.paperUserId
-        // 跳转页面
-        this.$router.replace({
-          path: '/paper/answered',
-          query: {
-            paperUserId: this.paperUserId
-          }
-        })
+        this.userScore = data.userScore
+        this.answerVoList = data.answerVoList
+        this.singleSelectList = data.answerVoList.filter(e => e.type === 0)
+        this.multiSelectList = data.answerVoList.filter(e => e.type === 1)
+        this.booleanList = data.answerVoList.filter(e => e.type === 2)
+        this.wirteList = data.answerVoList.filter(e => e.type === 3)
       })
     }
   },
   created () {
     this.paperId = this.$route.query.paperId
-    if (this.$route.query.paperUserId) {
-      this.paperUserId = this.$route.query.paperUserId
-    }
+    this.paperUserId = this.$route.query.paperUserId
     this.queryPaper()
   }
 }
@@ -121,7 +88,7 @@ export default {
 
 <style lang="scss" scoped>
 .answering-main{
-  background-color: rgba(240, 238, 238, 0.904);//rgba(44, 30, 30, 0.904);
+  background-color: rgba(240, 238, 238, 0.904);
   min-height: 1400px;
 }
 .backgroud {
@@ -161,8 +128,10 @@ export default {
   margin-bottom: 20px;
 }
 #submitBtn {
-  display: block;
-  margin: 0 auto;
+  text-align: center;
 }
-
+#userScore{
+  font-weight: 900;
+  font-size: 1.5em;
+}
 </style>

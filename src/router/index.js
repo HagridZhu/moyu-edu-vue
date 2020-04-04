@@ -7,6 +7,7 @@ import paper from '@/view/paper/paper'
 import paperDetail from '@/view/paper/paper-detail'
 import paperAnswerTable from '@/view/paper/paper-answer-table'
 import answering from '@/view/answer/answering'
+import answered from '@/view/answer/answered'
 
 Vue.use(Router)
 
@@ -50,6 +51,10 @@ export default new Router({
     {
       path: '/paper/answering',
       component: answering
+    },
+    {
+      path: '/paper/answered',
+      component: answered
     }
 
   ]
