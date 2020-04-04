@@ -13,9 +13,9 @@
           <div class="q-type"><b>多选题</b></div>
           <my-question-view :questionList='multiSelectList' type='1' ></my-question-view>
           <div class="q-type"><b>判断题</b></div>
-          <my-question-view :questionList='multiSelectList' type='2' ></my-question-view>
+          <my-question-view :questionList='booleanList' type='2' ></my-question-view>
           <div class="q-type"><b>填空题</b></div>
-          <my-question-view :questionList='multiSelectList' type='3' ></my-question-view>
+          <my-question-view :questionList='wirteList' type='3' ></my-question-view>
         </el-form>
       </div>
     </div>
@@ -36,36 +36,9 @@ export default {
       paperScore: '',
       singleSelectList: [],
       multiSelectList: [],
-      singleSelectList1: [
-        {
-          paperId: 1,
-          paperQuestionId: 1,
-          type: 0,
-          questionNum: 1,
-          questionScore: 5,
-          content: '题目内容，哈哈哈哈啊哈哈哈',
-          optionA: 'A选项',
-          optionB: 'B选项',
-          optionC: 'C选项',
-          optionD: 'D选项',
-          questionAnswer: '这是答案',
-          explanation: '这是解析'
-        },
-        {
-          paperId: 1,
-          paperQuestionId: 2,
-          type: 0,
-          questionNum: 2,
-          questionScore: 10,
-          content: '题目内容，xxxxxxxx大是大非',
-          optionA: 'A选项',
-          optionB: 'B选项',
-          optionC: 'C选项',
-          optionD: 'D选项',
-          questionAnswer: '这是答案',
-          explanation: '这是解析'
-        }
-      ]
+      booleanList: [],
+      wirteList: [],
+      singleSelectList1: []
     }
   },
   methods: {
@@ -78,10 +51,7 @@ export default {
       this.$refs.myQuestionForm.show(e)
     },
     search () {
-      var params = {
-        paperId: this.$route.query.paperId
-      }
-      this.$axios.get('exam/paper/detail', {params: params}).then(res => {
+      this.$axios.get('exam/paper/detail/' + this.$route.query.paperId).then(res => {
         let data = res.data.data
         this.paperName = data.paperName
         this.paperCode = data.paperCode
@@ -90,6 +60,8 @@ export default {
         this.paperId = data.paperId
         this.singleSelectList = data.questionVoList.filter(e => e.type === 0)
         this.multiSelectList = data.questionVoList.filter(e => e.type === 1)
+        this.booleanList = data.questionVoList.filter(e => e.type === 2)
+        this.wirteList = data.questionVoList.filter(e => e.type === 3)
       })
     }
   },

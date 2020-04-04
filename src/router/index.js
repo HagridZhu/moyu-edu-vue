@@ -5,6 +5,8 @@ import login from '@/view/login/login'
 import home from '@/view/home/home'
 import paper from '@/view/paper/paper'
 import paperDetail from '@/view/paper/paper-detail'
+import paperAnswerTable from '@/view/paper/paper-answer-table'
+import answering from '@/view/answer/answering'
 
 Vue.use(Router)
 
@@ -38,8 +40,16 @@ export default new Router({
         {
           path: 'paperDetail',
           component: paperDetail
+        },
+        {
+          path: 'paper/answer',
+          component: paperAnswerTable
         }
       ]
+    },
+    {
+      path: '/paper/answering',
+      component: answering
     }
 
   ]

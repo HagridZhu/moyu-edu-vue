@@ -14,7 +14,8 @@
       <div class="option" v-if="e.optionB">B. {{e.optionB}}</div>
       <div class="option" v-if="e.optionC">C. {{e.optionC}}</div>
       <div class="option" v-if="e.optionD">D. {{e.optionD}}</div>
-      <div>【答案】{{e.questionAnswer}}</div>
+      <div v-if="e.type !== 2">【答案】{{e.questionAnswer}}</div>
+      <div v-if="e.type === 2">【答案】{{e.questionAnswer == '1' ? '正确' : '错误'}}</div>
       <div>【解析】{{e.explanation}}</div>
       <div>
         <el-button @click="addQuestion(e)" size="small" type="primary" icon="el-icon-circle-plus-outline" >添加</el-button>

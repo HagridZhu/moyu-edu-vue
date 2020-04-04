@@ -11,8 +11,9 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/haige/api/edu': {
-        target: 'http://www.moyulab.cn',
+      '/haige': {
+        //target: 'http://www.moyulab.cn',
+        target: 'http://localhost:18888',
         changeOrigin: true
       }
     },
