@@ -14,6 +14,7 @@
     <el-button type="primary" @click="login()" class="login-form-submit">登录</el-button>
 </div>
 </template>
+
 <script>
 export default {
   name: 'Login',
@@ -32,7 +33,9 @@ export default {
         userName: this.loginForm.userName,
         password: this.loginForm.password
       }
+      let that = this
       this.$axios.post('/exam/oauth/login', param).then(res => {
+        that.$store.commit('changeLogin', { Authorization: res.data.data.token })
         this.$router.push({name: 'home'})
       })
     }
