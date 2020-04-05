@@ -47,9 +47,9 @@ export default {
     margin: 0 auto;
     margin-bottom: 20px;
     background-color: #ffffff;
-    &-input {
-      /*width: 340px;*/
-    }
+    // &-input {
+    //   /*width: 340px;*/
+    // }
     &-submit {
       width: 100%;
       /*margin-left: 40px;*/

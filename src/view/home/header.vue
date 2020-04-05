@@ -1,5 +1,5 @@
 <template>
-  <div class="header" >
+  <div class="header" @click="goHome" title="回到主页" >
    <el-dropdown>
         <i class="el-icon-setting" style="margin-right: 15px"></i>
         <el-dropdown-menu slot="dropdown">
@@ -19,6 +19,13 @@ export default {
     return {
       userName: '王小虎'
     }
+  },
+  methods: {
+    goHome () {
+      this.$router.push({
+        path: '/home'
+      })
+    }
   }
 }
 </script>
@@ -27,5 +34,6 @@ export default {
   .header {
     text-align: right;
     font-size: 12px;
+    cursor: pointer;
   }
 </style>

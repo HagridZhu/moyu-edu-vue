@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="question"
-      v-for="(e) in questionList"
-      :key="e.paperQuestionId">
+      v-for="(e,i) in questionList"
+      :key="i">
       <template v-if="e.type == type">
         <div><span class="font-score">{{e.questionNum}}.({{e.questionScore}}分)</span>{{e.content}}</div>
         <div v-if="e.pictureUrl">

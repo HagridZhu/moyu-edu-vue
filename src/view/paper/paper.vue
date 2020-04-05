@@ -7,12 +7,13 @@
         placeholder="请输入试卷名称"
         prefix-icon="el-icon-search"
         v-model="paperName"
+        size="medium"
         clearable>
       </el-input>
       </span>
-      <el-button class="left" type="primary" icon="el-icon-search" @click="search" >搜索</el-button>
+      <el-button class="left" type="primary" icon="el-icon-search" @click="search" size="medium">搜索</el-button>
       <div class="right">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addPaper()">新增试卷</el-button>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addPaper()" size="medium">新增试卷</el-button>
       </div>
     </div>
     <!-- 表格 -->
@@ -28,7 +29,8 @@
         <el-table-column fixed="right" label="操作" width="150">
           <template slot-scope="scope">
             <el-button @click="addPaperQuestion(scope.row)" type="text" size="small">添加试题</el-button>
-            <el-button @click="todo(scope.row)" type="text" size="small">编辑</el-button>
+            <el-button @click="editPaper(scope.row)" type="text" size="small">编辑</el-button>
+            <el-button @click="startPaper(scope.row)" type="text" size="small">发起考试</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -45,13 +47,16 @@
     </div>
     <!-- 新增试卷 -->
     <my-paper-form  ref="myPaperForm"></my-paper-form>
+    <!-- 发起考试 -->
+    <my-paper-user-form ref="myPaperUserForm"></my-paper-user-form>
   </div>
 </template>
 <script>
 import moment from 'moment'
 import myPaperForm from '@/view/paper/paper-form'
+import myPaperUserForm from '@/view/paper/paper-user-form'
 export default {
-  components: {myPaperForm},
+  components: {myPaperForm, myPaperUserForm},
   data () {
     return {
       paperName: '',
@@ -89,7 +94,19 @@ export default {
       this.search()
     },
     addPaper () {
-      this.$refs.myPaperForm.show()
+      this.$refs.myPaperForm.show('新增')
+    },
+    editPaper (paper) {
+      var param = {
+        paperId: paper.paperId,
+        paperName: paper.paperName,
+        paperScore: paper.paperScore,
+        duration: paper.duration
+      }
+      this.$refs.myPaperForm.show('更新', param)
+    },
+    startPaper (paper) {
+      this.$refs.myPaperUserForm.show('发起考试', paper.paperId)
     },
     addPaperQuestion (row) {
       this.$router.push({

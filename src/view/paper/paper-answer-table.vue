@@ -8,10 +8,11 @@
         placeholder="请输入试卷名称"
         prefix-icon="el-icon-search"
         v-model="paperName"
+        size="medium"
         clearable>
       </el-input>
       </span>
-      <el-button class="left" type="primary" icon="el-icon-search" @click="search" >搜索</el-button>
+      <el-button class="left" type="primary" size="medium" icon="el-icon-search" @click="search" >搜索</el-button>
     </div>
     <!-- 表格 -->
     <div class="paper-table">
@@ -27,7 +28,8 @@
         <el-table-column prop="createDate"  label="创建时间" width="151px" :formatter="formatDate"></el-table-column>
         <el-table-column fixed="right" label="操作" width="75">
           <template slot-scope="scope">
-            <el-button v-if="paperStatus == 0" @click="startPaperAnswer(scope.row)" type="text" size="small">开始考试</el-button>
+            <el-button v-if="scope.row.paperStatus == 0" @click="startPaperAnswer(scope.row)" type="text" size="small">开始考试</el-button>
+            <el-button v-if="scope.row.paperStatus == 1" @click="viewPaperAnswered(scope.row)" type="text" size="small">查看详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -102,6 +104,15 @@ export default {
     startPaperAnswer (row) {
       this.$router.push({
         path: '/paper/answering',
+        query: {
+          paperId: row.paperId,
+          paperUserId: row.paperUserId
+        }
+      })
+    },
+    viewPaperAnswered (row) {
+      this.$router.push({
+        path: '/paper/answered',
         query: {
           paperId: row.paperId,
           paperUserId: row.paperUserId

@@ -8,6 +8,8 @@ import paperDetail from '@/view/paper/paper-detail'
 import paperAnswerTable from '@/view/paper/paper-answer-table'
 import answering from '@/view/answer/answering'
 import answered from '@/view/answer/answered'
+import classTable from '@/view/class/class-table'
+import classUserTable from '@/view/class/class-user-table'
 
 Vue.use(Router)
 
@@ -45,6 +47,14 @@ export default new Router({
         {
           path: 'paper/answer',
           component: paperAnswerTable
+        },
+        {
+          path: 'class',
+          component: classTable
+        },
+        {
+          path: 'class/user',
+          component: classUserTable
         }
       ]
     },
