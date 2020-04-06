@@ -12,8 +12,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/haige': {
-        // target: 'http://www.moyulab.cn',
-        target: 'http://localhost:18888',
+        target: 'http://www.moyulab.cn',
+        // target: 'http://localhost:18888',
         changeOrigin: true
       }
     },

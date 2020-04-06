@@ -15,7 +15,7 @@ axios.interceptors.request.use(
   config => {
     var method = config.method
     if (method === 'post' || method === 'put' || method === 'delete') {
-      config.data = Qs.stringify(config.data, { allowDots: true })
+      config.data = config.data instanceof FormData ? config.data : Qs.stringify(config.data, { allowDots: true })
     }
     if (localStorage.getItem('Authorization')) {
       config.headers.Authorization = localStorage.getItem('Authorization')
@@ -45,9 +45,7 @@ axios.interceptors.response.use(
       return Promise.reject(response)
     }
     var refreshToken = response.headers['refresh-token']
-    console.log('refreshToken=' + refreshToken)
     if (refreshToken) {
-      console.log('替换token')
       // 替换新的token
       store.commit('changeLogin', {Authorization: refreshToken})
     }

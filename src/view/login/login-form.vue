@@ -35,7 +35,10 @@ export default {
       }
       let that = this
       this.$axios.post('/exam/oauth/login', param).then(res => {
-        that.$store.commit('changeLogin', { Authorization: res.data.data.token })
+        var data = res.data.data
+        localStorage.setItem('nick', data.nick)
+        localStorage.setItem('avatar', data.avatar)
+        that.$store.commit('changeLogin', { Authorization: data.token })
         this.$router.push({name: 'home'})
       })
     }
