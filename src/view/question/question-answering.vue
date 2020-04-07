@@ -6,7 +6,9 @@
       <template v-if="e.type == type">
         <div><span class="font-score">{{e.questionNum}}.({{e.questionScore}}分)</span>{{e.content}}</div>
         <div v-if="e.pictureUrl">
-          <img :src="e.pictureUrl">
+          <span v-for="(url,i) in e.pictureUrl.split(',')" :key="i">
+            <img :src="url" >
+          </span>
         </div>
         <el-radio-group v-if="e.type == 0" v-model="e.answer">
           <div><el-radio v-if="e.optionA" v-model="e.answer" label="A">A. {{e.optionA}}</el-radio></div>

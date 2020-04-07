@@ -6,7 +6,9 @@
       <template v-if="e.type == type">
         <div><span class="font-score">{{e.questionNum}}.({{e.questionScore}}分)</span>{{e.content}}</div>
         <div v-if="e.pictureUrl">
-          <img :src="e.pictureUrl">
+          <span v-for="(url,i) in e.pictureUrl.split(',')" :key="i">
+            <img :src="url" >
+          </span>
         </div>
         <div class="option" v-if="e.type == 0">
           <div v-if="e.optionA">A. {{e.optionA}}</div>

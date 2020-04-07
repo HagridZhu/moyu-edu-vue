@@ -125,10 +125,8 @@ export default {
         localStorage.setItem('avatar', avatar)
         this.avatar = avatar
       })
-      console.log('----------------updateAvatar')
     },
     quit () {
-      console.log('--------------quit')
       // 退出之后把当前用户的token,头像，昵称清空
       localStorage.removeItem('Authorization')
       localStorage.removeItem('avatar')

@@ -17,6 +17,9 @@
       </el-form-item>
       <el-form-item label="题号"><el-input v-model="questionForm.questionNum" disabled></el-input></el-form-item>
       <el-form-item label="题干"><el-input v-model="questionForm.content" placeholder="请输入题目" type="textarea" autosize ></el-input></el-form-item>
+      <el-form-item label="图片">
+        <my-upload ref="myUpload" :maxSize="maxSize"></my-upload>
+      </el-form-item>
       <template v-if="[0,1].indexOf(questionForm.type) > -1">
         <el-form-item label="选项A"><el-input v-model="questionForm.optionA" placeholder="请输入选项A"></el-input></el-form-item>
         <el-form-item label="选项B"><el-input v-model="questionForm.optionB" placeholder="请输入选项B"></el-input></el-form-item>
@@ -45,9 +48,12 @@
 </template>
 
 <script>
+import myUpload from '@/view/common/upload'
 export default {
+  components: {myUpload},
   data () {
     return {
+      maxSize: 2,
       questionForm: {
         paperId: null,
         type: null,
@@ -80,6 +86,7 @@ export default {
     async onSubmit () {
       this.createBtnLoading = true
       this.createBtnMsg = '创建中'
+      this.questionForm.pictureUrl = this.$refs.myUpload.getFileList().join()
       await this.$axios.post('exam/paper/question', this.questionForm).then(res => {
         this.$message.success('添加成功')
       })
