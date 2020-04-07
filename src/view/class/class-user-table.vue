@@ -28,7 +28,9 @@
         <el-table-column prop="school"  label="学校" ></el-table-column>
         <el-table-column prop="grade"  label="年级" :formatter="formatGrade"></el-table-column>
         <el-table-column prop="classNum"  label="班别" ></el-table-column>
-        <el-table-column prop="userName"  label="用户名" ></el-table-column>
+        <el-table-column prop="userName"  label="账号" ></el-table-column>
+        <el-table-column prop="password"  label="密码" ></el-table-column>
+        <el-table-column prop="nick"  label="昵称" ></el-table-column>
         <el-table-column prop="createBy"  label="创建人" width="80px" ></el-table-column>
         <el-table-column prop="createDate"  label="创建时间" width="151px" :formatter="formatDate"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150">

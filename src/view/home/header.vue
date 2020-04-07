@@ -18,7 +18,7 @@
         </el-avatar>
       </span>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item @click.native="showAvatarDialog" ><i class="el-icon-edit" />修改头像</el-dropdown-item>
+        <el-dropdown-item @click.native="showAvatarDialog" ><i class="el-icon-user-solid" />修改头像</el-dropdown-item>
         <el-dropdown-item @click.native="showPwdDialog"><i class="el-icon-edit" />修改密码</el-dropdown-item>
         <el-dropdown-item @click.native="quit"><i class="el-icon-right" />退出</el-dropdown-item>
       </el-dropdown-menu>
@@ -127,10 +127,11 @@ export default {
       })
     },
     quit () {
-      // 退出之后把当前用户的token,头像，昵称清空
+      // 退出之后把当前用户的token,头像，昵称,角色，清空
       localStorage.removeItem('Authorization')
       localStorage.removeItem('avatar')
       localStorage.removeItem('nick')
+      localStorage.removeItem('roleId')
       this.$router.push('/login')
     },
     handleClose (done) {

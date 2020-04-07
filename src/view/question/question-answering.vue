@@ -7,7 +7,12 @@
         <div><span class="font-score">{{e.questionNum}}.({{e.questionScore}}分)</span>{{e.content}}</div>
         <div v-if="e.pictureUrl">
           <span v-for="(url,i) in e.pictureUrl.split(',')" :key="i">
-            <img :src="url" >
+            <el-image :src="url" fit="contain">
+              <!-- fill / contain / cover / none / scale-down -->
+              <div slot="placeholder" class="image-slot">
+                加载中<span class="dot">...</span>
+              </div>
+            </el-image>
           </span>
         </div>
         <el-radio-group v-if="e.type == 0" v-model="e.answer">
@@ -57,5 +62,11 @@ export default {
 }
 el-radio {
   display: block;
+}
+// 图片大小样式
+.el-image {
+  height: 300px;
+  max-width: 400px;
+  margin-left: 12px;
 }
 </style>
