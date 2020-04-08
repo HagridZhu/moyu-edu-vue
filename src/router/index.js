@@ -14,12 +14,13 @@ import classUserTable from '@/view/class/class-user-table'
 Vue.use(Router)
 
 const router = new Router({
+  base: '/haige/vue/exam/',
   mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'login',
+      component: login
     },
     {
       path: '/login',
