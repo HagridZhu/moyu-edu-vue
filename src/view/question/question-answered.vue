@@ -28,11 +28,15 @@
           <div v-if="e.optionD">D. {{e.optionD}}</div>
         </div>
         <div>
-          【你的答案】{{e.answer}}
-          <el-button type="success" id="rightIcon" size="mini" icon="el-icon-check" circle disabled v-if="e.answerStatus == 0"></el-button>
-          <el-button type="danger"  id="wrongIcon" size="mini" icon="el-icon-close" circle disabled v-if="e.answerStatus == 1"></el-button>
+          <template v-if="e.type == 2">【你的答案】{{e.answer == 1 ? '正确' : e.answer == 0 ? 错误 : e.answer}}</template>
+          <template v-else>【你的答案】{{e.answer}}</template>
+          <el-button type="success" id="rightIcon" size="mini" icon="el-icon-check" circle disabled v-if="e.answerStatus == 1"></el-button>
+          <el-button type="danger"  id="wrongIcon" size="mini" icon="el-icon-close" circle disabled v-if="e.answerStatus == 0"></el-button>
         </div>
-        <div>【正确答案】{{e.questionAnswer}}</div>
+        <div>
+          <template v-if="e.type == 2">【正确答案】{{e.questionAnswer == 1 ? '正确' : e.questionAnswer == 0 ? 错误 : e.questionAnswer}}</template>
+          <template v-else>【正确答案】{{e.questionAnswer}}</template>
+        </div>
         <div>【解析】{{e.explanation}}</div>
       </template>
     </div>

@@ -27,7 +27,11 @@
           <div><el-checkbox v-if="e.optionC" label="C">C. {{e.optionC}}</el-checkbox></div>
           <div><el-checkbox v-if="e.optionD" label="D">D. {{e.optionD}}</el-checkbox></div>
         </el-checkbox-group>
-        <el-input v-if="[0, 1].indexOf(e.type) < 0" v-model="e.answer" ></el-input>
+        <el-select v-if="e.type == 2" v-model="e.answer">
+            <el-option label="正确" :value="1"></el-option>
+            <el-option label="错误" :value="0"></el-option>
+          </el-select>
+        <el-input v-if="[0, 1, 2].indexOf(e.type) < 0" v-model="e.answer" ></el-input>
       </template>
     </div>
   </div>

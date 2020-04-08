@@ -1,28 +1,31 @@
 <template>
-  <div class="header" @click="goHome" title="回到主页" >
-    <!-- <el-dropdown>
-      <i class="el-icon-setting" style="margin-right: 15px"></i>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>查看</el-dropdown-item>
-        <el-dropdown-item>新增</el-dropdown-item>
-        <el-dropdown-item>删除</el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown> -->
-    <span id="username">
-      <span>{{nick}}</span>
-    </span>
-    <el-dropdown class="header-item">
-      <span >
-        <el-avatar id="avatar" size="medium" fit="fill" src="https://empty" @error="errorHandler">
-            <img src="../../assets/avatar-default.jpg"/>
-        </el-avatar>
+  <div>
+    <div class="header" @click="goHome" title="回到主页">
+      <!-- <el-dropdown>
+        <i class="el-icon-setting" style="margin-right: 15px"></i>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item>查看</el-dropdown-item>
+          <el-dropdown-item>新增</el-dropdown-item>
+          <el-dropdown-item>删除</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown> -->
+      <span id="username">
+        <span>{{nick}}</span>
       </span>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item @click.native="showAvatarDialog" ><i class="el-icon-user-solid" />修改头像</el-dropdown-item>
-        <el-dropdown-item @click.native="showPwdDialog"><i class="el-icon-edit" />修改密码</el-dropdown-item>
-        <el-dropdown-item @click.native="quit"><i class="el-icon-right" />退出</el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
+      <el-dropdown class="header-item">
+        <span >
+          <el-avatar id="avatar" size="medium" fit="fill" src="https://empty" @error="errorHandler">
+              <img :src="avatar"/>
+          </el-avatar>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="showAvatarDialog" ><i class="el-icon-user-solid" />修改头像</el-dropdown-item>
+          <el-dropdown-item @click.native="showPwdDialog"><i class="el-icon-edit" />修改密码</el-dropdown-item>
+          <el-dropdown-item @click.native="quit"><i class="el-icon-right" />退出</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
+    
     <!-- 修改密码弹窗 -->
     <el-dialog style="text-align: center"
       title="修改密码"
@@ -51,12 +54,12 @@
       <el-form :model="avatarForm" label-width="80px">
         <el-form-item label="头像">
           <!-- <el-input v-model="avatarForm.avatar" clearable type="password" show-password></el-input> -->
-          <my-upload ref="myUpload" :maxSize="maxSize" :limit="limit"></my-upload>
+          <my-upload ref="avatarUpload" :maxSize="maxSize" :limit="limit"></my-upload>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="avatarDialog = false">取 消</el-button>
-        <el-button type="primary" @click="updatePwd" :loading="updateAvatarBtn">立即修改</el-button>
+        <el-button type="primary" @click="updateAvatar" :loading="updateAvatarBtn">立即修改</el-button>
       </span>
     </el-dialog>
   </div>
@@ -73,8 +76,7 @@ export default {
       maxSize: 2,
       limit: 1,
       nick: '未登录',
-      avatar: '',
-      defaultAvatar: '../../assets/avatar-default.jpg',
+      avatar: 'http://www.moyulab.cn/haige/static/moyu-edu/upload/sys/avatar-default.jpg',
       pwdForm: {},
       avatarForm: {},
       pwdDialog: false,
@@ -117,7 +119,7 @@ export default {
       })
     },
     updateAvatar () {
-      var fileList = this.$refs.myUpload.getFileList()
+      var fileList = this.$refs.avatarUpload.getFileList()
       var avatar = fileList[0]
       this.$axios.put('exam/user', {avatar: avatar}).then(res => {
         this.$message.success('更新成功')
@@ -143,7 +145,6 @@ export default {
     },
     refreshUserInfo () {
       this.userName = '未登录'
-      this.avatar = this.defaultAvatar
       // 从localStorage中获取用户头像和昵称
       var token = localStorage.getItem('Authorization')
       if (token) {
@@ -153,8 +154,11 @@ export default {
         }
       }
       var avatar = localStorage.getItem('avatar')
+      console.log('---------------this.avatar=' + this.avatar)
       if (avatar) {
-        this.avatar = avatar
+        if (this.avatar !== avatar) {
+          this.avatar = avatar
+        }
       }
     }
   },

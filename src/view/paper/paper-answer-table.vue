@@ -24,7 +24,9 @@
         <el-table-column prop="paperCode"  label="考试码"></el-table-column>
         <el-table-column prop="duration"  label="考试时长(分钟)" ></el-table-column>
         <el-table-column prop="paperScore"  label="试卷总分"></el-table-column>
-        <el-table-column prop="userScore"  label="我的总分"></el-table-column>
+        <el-table-column prop="nick"  label="答卷人"></el-table-column>
+        <el-table-column prop="userScore"  label="得分"></el-table-column>
+        <el-table-column prop="createBy"  label="创建人"></el-table-column>
         <el-table-column prop="createDate"  label="创建时间" width="151px" :formatter="formatDate"></el-table-column>
         <el-table-column fixed="right" label="操作" width="75">
           <template slot-scope="scope">
